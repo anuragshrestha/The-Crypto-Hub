@@ -1,57 +1,54 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import Cryptos from './screens/Cryptos';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import IconButton from './components/IconButton';
+import WatchList from './screens/WatchList';
+import {enableScreens} from 'react-native-screens';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+enableScreens();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+// creating a Bottom Tab Navigator
+const Tab = createBottomTabNavigator();
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+// //creating a Stack Navigator
+const Stack = createNativeStackNavigator();
+
+function TabNavigator() {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <Tab.Navigator
+      screenOptions={{
+        headerTitleAlign: 'center',
+        tabBarIconStyle: {backgroundColor: 'purple'},
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'black',
+        tabBarActiveBackgroundColor: 'black',
+        headerStyle: {
+          backgroundColor: 'blue',
+        },
+        headerTintColor: 'white',
+      }}>
+      <Tab.Screen
+        name="Crypto Currencies"
+        component={Cryptos}
+        options={{
+          tabBarLabel: 'Home',
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarIcon: ({color}) => <IconButton icon="home" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Watch List"
+        component={WatchList}
+        options={{
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarIcon: ({color}) => <IconButton icon="star" color={color} />,
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
@@ -60,6 +57,7 @@ function App(): React.JSX.Element {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
 
   return (
@@ -68,51 +66,24 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerTintColor: 'white',
+            headerTitleAlign: 'center',
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+          <Stack.Screen
+            name="All Crypto Currencies"
+            component={TabNavigator}
+            options={{
+              headerShown: false,
+              headerStyle: {backgroundColor: 'blue'},
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
