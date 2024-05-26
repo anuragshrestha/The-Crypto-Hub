@@ -1,37 +1,39 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {List} from 'react-native-paper';
 import {getCrypto} from '../Data/Api';
 import {Crypto, CryptoData} from '../Data/CryptoData';
-import {Image} from 'react-native';
+import CategoryGrid from '../components/CategoryGrid';
+import {MainStackParamList} from '../types/navigation';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-function Cryptos() {
+function Cryptos({navigation}: NativeStackScreenProps<MainStackParamList>) {
   const [crypto, setCrypto] = useState<Crypto>();
 
   useEffect(() => {
     getCrypto().then(cryptos => setCrypto(cryptos));
   }, []);
 
-  const renderItem = ({item}: {item: CryptoData}) => (
-    <List.Item
-      title={item.name}
-      description={`${item.symbol}, Price: ${item.price_usd}`}
-      // eslint-disable-next-line react/no-unstable-nested-components
-      left={() => (
-        <Image
-          source={{uri: `https://cryptologos.cc/logos/${item.id}.png`}}
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{width: 40, height: 40, marginRight: 10}}
-        />
-      )}
-    />
-  );
+  const renderItem = ({item}: {item: CryptoData}) => {
+    function pressHandler() {
+      navigation.navigate('CryptoDetails', {
+        id: item.id,
+      });
+    }
+    return (
+      <CategoryGrid
+        name={item.name}
+        symbol={item.symbol}
+        price_usd={item.price_usd}
+        onPress={pressHandler}
+      />
+    );
+  };
 
   return (
     <View style={styles.view}>
       <FlatList
         data={crypto?.data}
-        keyExtractor={item => item.symbol}
+        keyExtractor={item => item.id}
         renderItem={renderItem}
       />
     </View>
