@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
     borderColor: 'skyblue',
     padding: 4,
     marginRight: 3,
+    backgroundColor: 'blue',
+    width: 110,
+    textAlign: 'center',
   },
   text: {
     color: 'white',
@@ -81,6 +84,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
