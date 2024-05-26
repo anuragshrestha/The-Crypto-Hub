@@ -17,6 +17,13 @@ function Cryptos({navigation}: NativeStackScreenProps<MainStackParamList>) {
     function pressHandler() {
       navigation.navigate('CryptoDetails', {
         id: item.id,
+        name: item.name,
+        price: item.price_usd,
+        market_cap: item.market_cap_usd,
+        price_1hr: item.percent_change_1h,
+        price_1day: item.percent_change_24h,
+        price_7day: item.percent_change_7d,
+        symbol: item.symbol,
       });
     }
     return (
