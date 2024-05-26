@@ -1,21 +1,17 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
-import Cryptos from './screens/Cryptos';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import IconButton from './components/IconButton';
+import Cryptos from './screens/Cryptos';
 import WatchList from './screens/WatchList';
-import {enableScreens} from 'react-native-screens';
+import CryptoDetails from './screens/CryptoDetails';
+import {MainStackParamList} from './types/navigation';
 
-enableScreens();
-
-// creating a Bottom Tab Navigator
-const Tab = createBottomTabNavigator();
-
-// //creating a Stack Navigator
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator<MainStackParamList>();
+const Stack = createNativeStackNavigator<MainStackParamList>();
 
 function TabNavigator() {
   return (
@@ -32,7 +28,7 @@ function TabNavigator() {
         headerTintColor: 'white',
       }}>
       <Tab.Screen
-        name="Crypto Currencies"
+        name="CryptoCurrencies"
         component={Cryptos}
         options={{
           tabBarLabel: 'Home',
@@ -41,7 +37,7 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Watch List"
+        name="WatchList"
         component={WatchList}
         options={{
           // eslint-disable-next-line react/no-unstable-nested-components
@@ -73,10 +69,19 @@ function App(): React.JSX.Element {
             headerTitleAlign: 'center',
           }}>
           <Stack.Screen
-            name="All Crypto Currencies"
+            name="AllCryptoCurrencies"
             component={TabNavigator}
             options={{
+              title: ' ',
               headerShown: false,
+              headerStyle: {backgroundColor: 'blue'},
+            }}
+          />
+          <Stack.Screen
+            name="CryptoDetails"
+            component={CryptoDetails}
+            options={{
+              headerShown: true,
               headerStyle: {backgroundColor: 'blue'},
             }}
           />
