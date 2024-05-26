@@ -20,10 +20,11 @@ function TabNavigator() {
         headerTitleAlign: 'center',
         tabBarIconStyle: {backgroundColor: 'purple'},
         tabBarActiveTintColor: 'white',
-        tabBarInactiveTintColor: 'black',
+        tabBarInactiveTintColor: 'white',
+        tabBarInactiveBackgroundColor: 'darkblue',
         tabBarActiveBackgroundColor: 'black',
         headerStyle: {
-          backgroundColor: 'blue',
+          backgroundColor: 'royalblue',
         },
         headerTintColor: 'white',
       }}>
@@ -31,6 +32,7 @@ function TabNavigator() {
         name="CryptoCurrencies"
         component={Cryptos}
         options={{
+          title: 'Crypto Currencies',
           tabBarLabel: 'Home',
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({color}) => <IconButton icon="home" color={color} />,
