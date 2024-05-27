@@ -3,7 +3,7 @@
  */
 
 import {Pressable, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from 'react';
 
 interface IconButtonProps {
@@ -18,7 +18,7 @@ const IconButton: React.FC<IconButtonProps> = ({icon, color, pressed}) => {
       onPress={pressed}
       // eslint-disable-next-line @typescript-eslint/no-shadow
       style={({pressed}) => [pressed && styles.pressed]}>
-      <Icon name={icon} size={24} color={color} />
+      <Ionicons name={icon} size={24} color={color} />
     </Pressable>
   );
 };
