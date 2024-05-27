@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   list_item: {
-    paddingVertical: 0,
+    paddingVertical: 2,
   },
   name_text: {
-    color: 'white',
+    color: 'green',
     fontSize: 17,
     fontWeight: 'bold',
   },
