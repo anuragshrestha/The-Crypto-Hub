@@ -22,7 +22,7 @@ function TabNavigator() {
         tabBarActiveTintColor: 'white',
         tabBarInactiveTintColor: 'white',
         tabBarInactiveBackgroundColor: 'darkblue',
-        tabBarActiveBackgroundColor: 'black',
+        tabBarActiveBackgroundColor: 'blue',
         headerStyle: {
           backgroundColor: 'royalblue',
         },
@@ -42,6 +42,7 @@ function TabNavigator() {
         name="WatchList"
         component={WatchList}
         options={{
+          title: 'Watch List',
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({color}) => <IconButton icon="star" color={color} />,
         }}
@@ -83,8 +84,9 @@ function App(): React.JSX.Element {
             name="CryptoDetails"
             component={CryptoDetails}
             options={{
+              title: 'Crypto Details',
               headerShown: true,
-              headerStyle: {backgroundColor: 'blue'},
+              headerStyle: {backgroundColor: 'royalblue'},
             }}
           />
         </Stack.Navigator>
