@@ -12,13 +12,13 @@ interface IconButtonProps {
   pressed?: () => void;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({icon, color, pressed}) => {
+const IconButton: React.FC<IconButtonProps> = ({icon, pressed}) => {
   return (
     <Pressable
       onPress={pressed}
       // eslint-disable-next-line @typescript-eslint/no-shadow
       style={({pressed}) => [pressed && styles.pressed]}>
-      <Ionicons name={icon} size={24} color={color} />
+      <Ionicons name={icon} size={24} color="white" />
     </Pressable>
   );
 };
