@@ -4,11 +4,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import IconButton from './components/IconButton';
 import Cryptos from './screens/Cryptos';
 import WatchList from './screens/WatchList';
 import CryptoDetails from './screens/CryptoDetails';
 import {MainStackParamList} from './types/navigation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator<MainStackParamList>();
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -23,6 +23,7 @@ function TabNavigator() {
         tabBarInactiveTintColor: 'white',
         tabBarInactiveBackgroundColor: 'darkblue',
         tabBarActiveBackgroundColor: 'blue',
+        tabBarLabelStyle: {fontSize: 15},
         headerStyle: {
           backgroundColor: 'royalblue',
         },
@@ -35,7 +36,9 @@ function TabNavigator() {
           title: 'Crypto Currencies',
           tabBarLabel: 'Home',
           // eslint-disable-next-line react/no-unstable-nested-components
-          tabBarIcon: ({color}) => <IconButton icon="home" color={color} />,
+          tabBarIcon: ({color}) => (
+            <Ionicons name="home" size={20} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -43,8 +46,13 @@ function TabNavigator() {
         component={WatchList}
         options={{
           title: 'Watch List',
+          headerStyle: {
+            backgroundColor: 'darkblue',
+          },
           // eslint-disable-next-line react/no-unstable-nested-components
-          tabBarIcon: ({color}) => <IconButton icon="star" color={color} />,
+          tabBarIcon: ({color}) => (
+            <Ionicons name="hourglass" size={20} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>
