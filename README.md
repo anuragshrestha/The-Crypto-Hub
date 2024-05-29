@@ -1,6 +1,6 @@
 ## Welcome to my `The Crypto Hub` mobile app.
 
-Using this mobile app you can see the latest price of Crypto currencies and save them in your watch list. This app gives the updated and current price of cryptos, there price change in last one hour, one day and seven days indicating a red color if they went bearish and green color if they went bullish.
+Using this mobile app you can see the latest price of Crypto currencies and save them in your watch list. This app gives the updated and current price of cryptos, there price change in last one hour, one day and seven days indicating a red color if they went bearish and green color if they went bullish. You can navigate between multiple screens to see each Crytops price and their information. 
 
 # FrontedEnd and BackEnd stack used:
 I used React Native with typescript for the front end and creating user Interface and for backend i used firebase realtime DataBase for managing the cryptos data and user's watchlist data.
