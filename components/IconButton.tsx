@@ -9,16 +9,22 @@ import React from 'react';
 interface IconButtonProps {
   icon: string;
   color: string;
+  size: number;
   pressed?: () => void;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({icon, pressed}) => {
+const IconButton: React.FC<IconButtonProps> = ({
+  icon,
+  size,
+  color,
+  pressed,
+}) => {
   return (
     <Pressable
       onPress={pressed}
       // eslint-disable-next-line @typescript-eslint/no-shadow
       style={({pressed}) => [pressed && styles.pressed]}>
-      <Ionicons name={icon} size={24} color="white" />
+      <Ionicons name={icon} size={size} color={color} />
     </Pressable>
   );
 };
