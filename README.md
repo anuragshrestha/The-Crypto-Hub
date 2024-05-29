@@ -1,5 +1,10 @@
 ## Welcome to my `The Crypto Hub` mobile app.
 
+Using this mobile app you can see the latest price of Crypto currencies and save them in your watch list. This app gives the updated and current price of cryptos, there price change in last one hour, one day and seven days indicating a red color if they went bearish and green color if they went bullish.
+
+# FrontedEnd and BackEnd stack used:
+I used React Native with typescript for the front end and creating user Interface and for backend i used firebase realtime DataBase for managing the cryptos data and user's watchlist data.
+
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
@@ -48,7 +53,7 @@ This is one way to run your app — you can also run it directly from within And
 
 ## Step 3: Modifying your App
 
-Now that you have successfully run the app, let's modify it.
+Now that you have successfully run the app, if you want to modify it then:
 
 1. Open `App.tsx` in your text editor of choice and edit some lines.
 2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
