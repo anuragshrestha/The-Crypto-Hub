@@ -5,6 +5,7 @@ import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DetailsScreenRoute, MainStackParamList} from '../types/navigation';
 import IconButton from '../components/IconButton';
+import axios from 'axios';
 
 function CryptoDetails({
   navigation,
@@ -12,26 +13,42 @@ function CryptoDetails({
   const route = useRoute<DetailsScreenRoute>();
   const price_1day = parseFloat(route.params.price_1day);
   const price_7day = parseFloat(route.params.price_7day);
+  const price = parseFloat(route.params.price).toFixed(2);
 
-  function saveList() {
-    console.log('saved to list');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  async function saveList() {
+    const cryptoData = {
+      name: route.params.name,
+      symbol: route.params.symbol,
+      price_1day,
+      price_7day,
+      price: route.params.price,
+    };
+
+    try {
+      await axios.post(
+        'https://the-crypto-hub-default-rtdb.firebaseio.com/cryptos.json',
+        cryptoData,
+      );
+      console.log('saved to list');
+    } catch (error) {
+      console.error('Error saving to list:', error);
+    }
   }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
-      headerRight: () => {
-        return (
-          <IconButton
-            icon="star-outline"
-            size={20}
-            color="white"
-            pressed={saveList}
-          />
-        );
-      },
+      headerRight: () => (
+        <IconButton
+          icon="star-outline"
+          size={22}
+          color="white"
+          pressed={saveList}
+        />
+      ),
     });
-  }, [navigation]);
+  }, [navigation, saveList]);
 
   return (
     <View style={styles.view}>
@@ -72,7 +89,7 @@ function CryptoDetails({
         title={
           <>
             <Text style={styles.text}>$</Text>
-            <Text style={styles.price_text}>{` ${route.params.price}`}</Text>
+            <Text style={styles.price_text}>{` ${price}`}</Text>
           </>
         }
       />
