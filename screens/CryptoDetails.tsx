@@ -4,7 +4,7 @@ import {List, Text} from 'react-native-paper';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DetailsScreenRoute, MainStackParamList} from '../types/navigation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import IconButton from '../components/IconButton';
 
 function CryptoDetails({
   navigation,
@@ -13,11 +13,22 @@ function CryptoDetails({
   const price_1day = parseFloat(route.params.price_1day);
   const price_7day = parseFloat(route.params.price_7day);
 
+  function saveList() {
+    console.log('saved to list');
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => {
-        return <Ionicons name="star-outline" size={24} color="white" />;
+        return (
+          <IconButton
+            icon="star-outline"
+            size={20}
+            color="white"
+            pressed={saveList}
+          />
+        );
       },
     });
   }, [navigation]);
@@ -31,13 +42,6 @@ function CryptoDetails({
         }
         style={styles.list_item}
       />
-      {/* <List.Item
-        title={<Text style={styles.name_text}> 1hr </Text>}
-        description={
-          <Text style={styles.text}>{`${route.params.price_1hr}%`} </Text>
-        }
-        style={styles.list_item}
-      /> */}
       <List.Item
         title={<Text style={styles.name_text}> 1D </Text>}
         description={
