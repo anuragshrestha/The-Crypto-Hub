@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, View, FlatList, Text, Pressable} from 'react-native';
 import {CryptoData} from '../Data/CryptoData';
 import axios from 'axios';
@@ -9,25 +9,33 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 function WatchList({navigation}: NativeStackScreenProps<MainStackParamList>) {
   const [cryptos, setCryptos] = useState<CryptoData[]>([]);
 
-  useEffect(() => {
-    async function fetchCryptos() {
-      try {
-        const response = await axios.get(
-          'https://the-crypto-hub-default-rtdb.firebaseio.com/cryptos.json',
-        );
-        const data = response.data;
-        const loadedCryptos = Object.keys(data).map(key => ({
-          id: key,
-          ...data[key],
-        }));
-        setCryptos(loadedCryptos);
-      } catch (error) {
-        console.error('Error fetching cryptos:', error);
+  const fetchCryptos = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        'https://the-crypto-hub-default-rtdb.firebaseio.com/crypto.json',
+      );
+      const data = response.data;
+      if (!data) {
+        return;
       }
+      const loadedCryptos = Object.keys(data).map(key => ({
+        id: key,
+        ...data[key],
+      }));
+      setCryptos(loadedCryptos);
+    } catch (error) {
+      console.error('Error fetching cryptos:', error);
     }
-
-    fetchCryptos();
   }, []);
+
+  useEffect(() => {
+    fetchCryptos();
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchCryptos();
+    });
+
+    return unsubscribe;
+  }, [fetchCryptos, navigation]);
 
   function onPressed(item: CryptoData) {
     navigation.navigate('CryptoDetails', {
