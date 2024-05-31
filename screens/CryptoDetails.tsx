@@ -33,7 +33,7 @@ function CryptoDetails({
     loadStarState();
   }, [cryptoKey]);
 
-  const saveList = useCallback(async () => {
+  const saveCryptoData = useCallback(async () => {
     const cryptoData = {
       name: route.params.name,
       symbol: route.params.symbol,
@@ -43,31 +43,71 @@ function CryptoDetails({
     };
 
     try {
+      const response = await axios.get(
+        'https://the-crypto-hub-default-rtdb.firebaseio.com/crypto.json',
+      );
+      const data = response.data;
+      if (data) {
+        const isExit = Object.values(data).some(
+          (entry: any) => entry.symbol === route.params.symbol,
+        );
+        if (isExit) {
+          console.log(route.params.symbol, 'This crypto already exit');
+          return;
+        }
+      }
+
       await axios.post(
-        'https://the-crypto-hub-default-rtdb.firebaseio.com/cryptos.json',
+        'https://the-crypto-hub-default-rtdb.firebaseio.com/crypto.json',
         cryptoData,
       );
       console.log('saved to list');
+      navigation.setParams({refresh: true});
     } catch (error) {
       console.error('Error saving to list:', error);
     }
-  }, [
-    route.params.name,
-    route.params.symbol,
-    route.params.price,
-    price_1day,
-    price_7day,
-  ]);
+  }, [route.params, price_1day, price_7day, navigation]);
+
+  const deleteCryptoData = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        'https://the-crypto-hub-default-rtdb.firebaseio.com/crypto.json',
+      );
+      const data = response.data;
+
+      if (!data) {
+        console.log('No data found in the database');
+        return;
+      }
+      const keyToDelete = Object.keys(data).find(
+        key => data[key].symbol === route.params.symbol,
+      );
+      if (keyToDelete) {
+        await axios.delete(
+          `https://the-crypto-hub-default-rtdb.firebaseio.com/crypto/${keyToDelete}.json`,
+        );
+        console.log(route.params.symbol, 'data removed from the list');
+        navigation.setParams({refresh: true});
+      }
+    } catch (error) {
+      console.error('error deleting the crypto', error);
+    }
+  }, [navigation, route.params.symbol]);
 
   const changeColor = useCallback(async () => {
     try {
       const newState = !isBlack;
       setIsBlack(newState);
       await AsyncStorage.setItem(cryptoKey, JSON.stringify(newState));
+      if (newState) {
+        await saveCryptoData();
+      } else {
+        await deleteCryptoData();
+      }
     } catch (error) {
       console.error('Error saving star state:', error);
     }
-  }, [cryptoKey, isBlack]);
+  }, [cryptoKey, isBlack, saveCryptoData, deleteCryptoData]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -77,14 +117,11 @@ function CryptoDetails({
           icon={isBlack ? 'star' : 'star-outline'}
           size={22}
           color={isBlack ? 'black' : 'white'}
-          pressed={() => {
-            saveList();
-            changeColor();
-          }}
+          pressed={changeColor}
         />
       ),
     });
-  }, [navigation, saveList, isBlack, changeColor]);
+  }, [navigation, saveCryptoData, isBlack, changeColor]);
 
   return (
     <View style={styles.view}>
